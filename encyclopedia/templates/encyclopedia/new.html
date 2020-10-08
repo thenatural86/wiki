@@ -1,0 +1,13 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title%}
+New
+{% endblock%}
+
+{% block body%}
+<h1>Create a New Entry</h1>
+<form action="{% url 'new' %}" method="post">
+    {{ newForm }}
+    <!-- <input type="text" placeholder="yolo"> -->
+</form>
+{% endblock%}

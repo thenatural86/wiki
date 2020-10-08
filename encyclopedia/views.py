@@ -10,6 +10,11 @@ class SearchForm(forms.Form):
         attrs={'placeholder': 'Search Encyclopedia', 'style': 'width:100%'}))
 
 
+class NewForm(forms.Form):
+    title = forms.CharField(label="", widget=forms.TextInput(
+        attrs={'placeholder': 'Create Title'}))
+
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
@@ -43,9 +48,15 @@ def search(request):
                 "query": query,
                 "form": SearchForm()
             })
+    return render(request, "encyclopedia/search.html", {
+        "results": "",
+        "query": "",
+        "form": SearchForm()
+    })
 
-    else:
-        print("goal!")
-        # return render(request, "encyclopedia/search.html", {
-        #     "results": ""
-        # })
+
+def new(request):
+    return render(request, "encyclopedia/new.html", {
+        "form": SearchForm(),
+        "newForm": NewForm()
+    })

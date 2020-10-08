@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+wiki
+{%endblock %}
+
+{% block body%}
+
+{% if title%}
+<p>{{ title }}</p>
+{% else %}
+<p>No entry by that title</p>
+{% endif %}
+
+{%endblock%}

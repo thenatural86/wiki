@@ -18,6 +18,13 @@ class NewForm(forms.Form):
         attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
 
 
+class EditForm(forms.Form):
+    title = forms.CharField(label="", widget=forms.TextInput(
+        attrs={'placeholder': 'Create Title'}))
+    data = forms.CharField(label="", widget=forms.Textarea(
+        attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
+
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
@@ -88,4 +95,12 @@ def new(request):
     return render(request, "encyclopedia/new.html", {
         "form": SearchForm(),
         "newForm": NewForm()
+    })
+
+
+def edit(request, title):
+    entry = util.get_entry(title)
+    return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "entry": entry
     })

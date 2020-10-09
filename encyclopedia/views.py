@@ -19,8 +19,8 @@ class NewForm(forms.Form):
 
 
 class EditForm(forms.Form):
-    title = forms.CharField(label="", widget=forms.TextInput(
-        attrs={'placeholder': 'Create Title'}))
+    # title = forms.CharField(label="", widget=forms.TextInput(
+    #     attrs={'placeholder': 'Create Title'}))
     data = forms.CharField(label="", widget=forms.Textarea(
         attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
 
@@ -99,8 +99,15 @@ def new(request):
 
 
 def edit(request, title):
-    entry = util.get_entry(title)
-    return render(request, "encyclopedia/edit.html", {
-        "title": title,
-        "entry": entry
-    })
+    if request.method == "POST":
+        print("yolo")
+    else:
+        entry = util.get_entry(title)
+        edit_form = EditForm(initial={'data': entry})
+        return render(request, "encyclopedia/edit.html", {
+            # "title": title,
+            "entry": entry,
+            "edit_form": edit_form
+        })
+    # elif request.method == "POST":
+    #     return HttpResponseRedirect(reverse("entry", args=[title]))

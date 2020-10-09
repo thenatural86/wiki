@@ -1,2 +1,2 @@
 # Cowboy Bebop
-See ya later space cowboy
+See ya later space cowboy and cowgirls!

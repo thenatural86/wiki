@@ -19,8 +19,8 @@ class NewForm(forms.Form):
 
 
 class EditForm(forms.Form):
-    # title = forms.CharField(label="", widget=forms.TextInput(
-    #     attrs={'placeholder': 'Create Title'}))
+    title = forms.CharField(label="", widget=forms.TextInput(
+        attrs={'placeholder': 'Create Title'}))
     data = forms.CharField(label="", widget=forms.Textarea(
         attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
 
@@ -100,10 +100,23 @@ def new(request):
 
 def edit(request, title):
     if request.method == "POST":
-        print("yolo")
+        edit_entry = EditForm(request.POST)
+        if edit_entry.is_valid():
+            title = edit_entry.cleaned_data["title"]
+            data = edit_entry.cleaned_data["data"]
+            util.save_entry(title, data)
+            entry = util.get_entry(title)
+            print("POSTING")
+            return HttpResponseRedirect(reverse("entry", args=[title]))
+            # return render(request, "encyclopedia/entry.html", {
+            #     "title": title,
+            #     "entry": markdown2.markdown(entry),
+            #     "form": SearchForm()
+            # })
     else:
         entry = util.get_entry(title)
-        edit_form = EditForm(initial={'data': entry})
+        edit_form = EditForm(initial={'title': title, 'data': entry})
+        print("GETTING")
         return render(request, "encyclopedia/edit.html", {
             # "title": title,
             "entry": entry,

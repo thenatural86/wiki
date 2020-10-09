@@ -7,7 +7,8 @@ wiki
 {% block body%}
 
 {% if title%}
-<p>{{ title }}</p>
+<!-- <p>{{ title }}</p> -->
+<h6>{{ entry|safe }}</h6>
 {% else %}
 <p>No entry by that title</p>
 {% endif %}

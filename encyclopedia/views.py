@@ -3,6 +3,7 @@ from django import forms
 from . import util
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import markdown2
 
 
 class SearchForm(forms.Form):
@@ -13,6 +14,8 @@ class SearchForm(forms.Form):
 class NewForm(forms.Form):
     title = forms.CharField(label="", widget=forms.TextInput(
         attrs={'placeholder': 'Create Title'}))
+    content = forms.CharField(label="", widget=forms.Textarea(
+        attrs={'placeholder': 'Enter a Description', 'style': 'width:40%', 'style': 'height:40%'}))
 
 
 def index(request):
@@ -23,8 +26,11 @@ def index(request):
 
 
 def entry(request, title):
+    entry = util.get_entry(title)
     return render(request, "encyclopedia/entry.html", {
-        "title": util.get_entry(title)
+        "title": title,
+        "entry": markdown2.markdown(entry),
+        "form": SearchForm()
     })
 
 
@@ -56,6 +62,29 @@ def search(request):
 
 
 def new(request):
+    if request.method == "POST":
+        new_entry = NewForm(request.POST)
+        if new_entry.is_valid():
+            title = new_entry.cleaned_data["title"]
+            content = new_entry.cleaned_data["content"]
+            entries_all = util.list_entries()
+            for entry in entries_all:
+                if title.lower() == entry.lower():
+                    return render(request, "encyclopedia/new.html", {
+                        "form": SearchForm(),
+                        "newForm": NewForm(),
+                        "error": "That title already exist!"
+                    })
+            new_title = "# " + title
+            new_content = "\n" + content
+            new_data = new_title + new_content
+            util.save_entry(title, new_data)
+            entry = util.get_entry(title)
+            return render(request, "encyclopedia/entry.html", {
+                "title": title,
+                "entry": markdown2.markdown(entry),
+                "form": SearchForm()
+            })
     return render(request, "encyclopedia/new.html", {
         "form": SearchForm(),
         "newForm": NewForm()

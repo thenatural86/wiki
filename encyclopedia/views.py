@@ -15,7 +15,7 @@ class NewForm(forms.Form):
     title = forms.CharField(label="", widget=forms.TextInput(
         attrs={'placeholder': 'Create Title'}))
     content = forms.CharField(label="", widget=forms.Textarea(
-        attrs={'placeholder': 'Enter a Description', 'style': 'width:40%', 'style': 'height:40%'}))
+        attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
 
 
 def index(request):

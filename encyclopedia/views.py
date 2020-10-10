@@ -108,11 +108,6 @@ def edit(request, title):
             entry = util.get_entry(title)
             print("POSTING")
             return HttpResponseRedirect(reverse("entry", args=[title]))
-            # return render(request, "encyclopedia/entry.html", {
-            #     "title": title,
-            #     "entry": markdown2.markdown(entry),
-            #     "form": SearchForm()
-            # })
     else:
         entry = util.get_entry(title)
         edit_form = EditForm(initial={'title': title, 'data': entry})
@@ -122,5 +117,3 @@ def edit(request, title):
             "entry": entry,
             "edit_form": edit_form
         })
-    # elif request.method == "POST":
-    #     return HttpResponseRedirect(reverse("entry", args=[title]))

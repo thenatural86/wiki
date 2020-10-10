@@ -5,12 +5,12 @@ Search
 {% endblock %}
 
 {% block body %}
-<h1>Search Results for "{{ query }}"</h1>
+<h1 style="border-bottom: 1px solid grey; padding-top: 10px;">Search Results for "{{ query }}"</h1>
     <ul>
     {% if results|length == 1 %}
-        <p>Found {{results|length}} result</p>
+        <p>Found {{ results|length }} result</p>
     {% elif results|length > 1 %}
-        <p>Found {{results|length }} results</p>
+        <p>Found {{ results|length }} results</p>
     {% endif %}
 
     {% for result in results%}
@@ -18,7 +18,7 @@ Search
             <a href="{% url 'entry' result %}">{{ result }}</a>
         </li>
     {% empty %}
-        <li>No Results</li>
+        <li>No results for {{ query }}</li>
     {% endfor %}
     </ul>
 {% endblock %}

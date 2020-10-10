@@ -7,12 +7,10 @@ wiki
 {% block body%}
 
 {% if title%}
-<!-- <p>{{ title }}</p> -->
-<h6>{{ entry|safe }}</h6>
+    {{ entry|safe }}
 {% else %}
-<p>No entry by that title</p>
+    <p>No entry by that title</p>
 {% endif %}
 
 <a href="{% url 'edit' title %}">Edit Entry</a>
-
 {%endblock%}

@@ -6,9 +6,9 @@ Edit
 
 {% block body%}
 
-<h1>Edit {{title}}</h1>
+<h1 style="padding-top: 10px;">Edit {{title}}</h1>
 
-<form method="post">
+<form style="margin-top: 2%; padding: 2%;" method="post">
     {% csrf_token %}
     {{edit_form}}
     <input type="submit">

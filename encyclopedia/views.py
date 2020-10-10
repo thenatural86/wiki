@@ -4,6 +4,7 @@ from . import util
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import markdown2
+import random
 
 
 class SearchForm(forms.Form):
@@ -13,16 +14,16 @@ class SearchForm(forms.Form):
 
 class NewForm(forms.Form):
     title = forms.CharField(label="", widget=forms.TextInput(
-        attrs={'placeholder': 'Create Title'}))
-    content = forms.CharField(label="", widget=forms.Textarea(
-        attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
+        attrs={'placeholder': 'Create Title', 'style': 'margin-bottom: 2%; padding: 1%'}))
+    data = forms.CharField(label="", widget=forms.Textarea(
+        attrs={'placeholder': 'Enter a Description', 'style': 'height: 200px; width:1000px'}))
 
 
 class EditForm(forms.Form):
     title = forms.CharField(label="", widget=forms.TextInput(
-        attrs={'placeholder': 'Create Title'}))
+        attrs={'placeholder': 'Create Title', 'style': 'margin-bottom: 2%; padding: 1%'}))
     data = forms.CharField(label="", widget=forms.Textarea(
-        attrs={'placeholder': 'Enter a Description', 'style': 'height: 40%'}))
+        attrs={'placeholder': 'Enter a Description', 'style': 'height: 200px; width:1000px'}))
 
 
 def index(request):
@@ -73,7 +74,7 @@ def new(request):
         new_entry = NewForm(request.POST)
         if new_entry.is_valid():
             title = new_entry.cleaned_data["title"]
-            content = new_entry.cleaned_data["content"]
+            data = new_entry.cleaned_data["data"]
             entries_all = util.list_entries()
             for entry in entries_all:
                 if title.lower() == entry.lower():
@@ -83,8 +84,8 @@ def new(request):
                         "error": "That title already exist!"
                     })
             new_title = "# " + title
-            new_content = "\n" + content
-            new_data = new_title + new_content
+            new_data = "\n" + data
+            new_data = new_title + new_data
             util.save_entry(title, new_data)
             entry = util.get_entry(title)
             return render(request, "encyclopedia/entry.html", {
@@ -117,3 +118,10 @@ def edit(request, title):
             "entry": entry,
             "edit_form": edit_form
         })
+
+
+def chance(request):
+    entries = util.list_entries()
+    title = random.choice(entries)
+    entry = util.get_entry(title)
+    return HttpResponseRedirect(reverse("entry", args=[title]))

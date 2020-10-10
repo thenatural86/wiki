@@ -5,15 +5,15 @@ New
 {% endblock%}
 
 {% block body%}
-<h1>Create a New Entry</h1>
-<form action="{% url 'new' %}" method="post">
-    {% csrf_token %}
-    {{ newForm }}
-    <input type="submit">
-</form>
+    <h1 style="padding-top: 10px;">Create a New Entry</h1>
+    <form style="margin-top: 2%; padding: 2%;" action="{% url 'new' %}" method="post">
+        {% csrf_token %}
+        {{ newForm }}
+        <input type="submit">
+    </form>
 
 {% if error %}
-{{ error }}
+    {{ error }}
 {% endif %}
 
 {% endblock%}

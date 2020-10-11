@@ -7,7 +7,9 @@ wiki
 {% block body%}
 
 {% if title%}
+<div style="margin-top: -10px;">
     {{ entry|safe }}
+</div>
 {% else %}
     <p>No entry by that title</p>
 {% endif %}
